@@ -1,0 +1,5 @@
+# Include files
+*
+!k8s-deployer.py
+!config.json
+!requirements.txt

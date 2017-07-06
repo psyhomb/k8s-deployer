@@ -1,0 +1,1 @@
+{{- tree "kubernetes/deployments" | explode | toJSON | plugin "/etc/consul-template/plugins/k8s-svcgen.py" -}}

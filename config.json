@@ -1,0 +1,20 @@
+{
+  "kubernetes": {
+    "scheme": "http",
+    "host": "localhost",
+    "port": 8080,
+    "api": {
+      "headers": {
+      }
+    }
+  },
+  "consul": {
+    "scheme": "http",
+    "host": "localhost",
+    "port": 8500,
+    "key_path": "kubernetes",
+    "specifications": {
+      "retention": 5
+    }
+  }
+}

@@ -1,0 +1,105 @@
+{
+    "id": null,
+    "namespace": null,
+    "objects": {
+        "deployments": {
+            "api_path": "apis/apps/v1beta1",
+            "specification": {
+                "metadata": {
+                    "name": "echoserver",
+                    "creationTimestamp": null,
+                    "labels": {
+                        "app": "echoserver"
+                    }
+                },
+                "spec": {
+                    "replicas": 1,
+                    "selector": {
+                        "matchLabels": {
+                            "app": "echoserver"
+                        }
+                    },
+                    "template": {
+                        "metadata": {
+                            "creationTimestamp": null,
+                            "labels": {
+                                "app": "echoserver"
+                            }
+                        },
+                        "spec": {
+                            "containers": [
+                                {
+                                    "name": "echoserver",
+                                    "image": "gcr.io/google_containers/echoserver:1.4",
+                                    "ports": [
+                                        {
+                                            "containerPort": 8080,
+                                            "protocol": "TCP"
+                                        }
+                                    ],
+                                    "resources": {},
+                                    "readinessProbe": {
+                                        "httpGet": {
+                                            "path": "/healthz",
+                                            "port": 8080,
+                                            "scheme": "HTTP"
+                                        },
+                                        "timeoutSeconds": 1,
+                                        "periodSeconds": 1,
+                                        "successThreshold": 1,
+                                        "failureThreshold": 10
+                                    },
+                                    "terminationMessagePath": "/dev/termination-log",
+                                    "imagePullPolicy": "Always"
+                                }
+                            ],
+                            "restartPolicy": "Always",
+                            "terminationGracePeriodSeconds": 30,
+                            "dnsPolicy": "ClusterFirst",
+                            "securityContext": {}
+                        }
+                    },
+                    "strategy": {
+                        "type": "RollingUpdate",
+                        "rollingUpdate": {
+                            "maxUnavailable": 1,
+                            "maxSurge": 0
+                        }
+                    }
+                },
+                "status": {}
+            }
+        },
+        "services": {
+            "api_path": "api/v1",
+            "specification": {
+                "metadata": {
+                    "name": "echoserver",
+                    "creationTimestamp": null,
+                    "labels": {
+                        "app": "echoserver",
+                        "tags": "kubernetes__k8s__blue"
+                    }
+                },
+                "spec": {
+                    "ports": [
+                        {
+                            "name": "http",
+                            "protocol": "TCP",
+                            "port": 80,
+                            "targetPort": 8080
+                        }
+                    ],
+                    "selector": {
+                        "app": "echoserver"
+                    },
+                    "type": "NodePort",
+                    "sessionAffinity": "None"
+                },
+                "status": {
+                    "loadBalancer": {}
+                }
+            }
+        }
+    }
+}
