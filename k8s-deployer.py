@@ -21,8 +21,9 @@ __description__ = 'Kubernetes deployer API with Consul registration'
 
 # Kubernetes API groups and versions
 K8S_API = {
-  'deployments': 'apis/apps/v1beta1',
-  'replicasets': 'apis/extensions/v1beta1'
+    'services': 'api/v1',
+    'deployments': 'apis/apps/v1beta1',
+    'replicasets': 'apis/extensions/v1beta1'
 }
 
 # Consul key/value API
@@ -128,6 +129,31 @@ def spec_validator(data):
         validictory.validate(data, schema)
     except ValueError as e:
         abort(422, 'Bad JSON schema: {}'.format(e))
+
+
+def fetch_svc(k8s_host, **kwargs):
+    """
+    Fetch named service definition from Kubernetes (output: dict)
+    """
+    pass_headers = {}
+    if 'k8s_api_headers' in kwargs:
+        headers = kwargs.pop('k8s_api_headers')
+
+    pass_headers.update(headers)
+
+    namespace = kwargs['namespace']
+    service_name = kwargs['service_name']
+
+    url = '{}/{}/namespaces/{}/{}/{}'.format(
+                k8s_host, K8S_API['services'],
+                namespace, 'services', service_name
+            )
+    svc = req('GET', url, pass_headers)
+
+    if svc['spec']['type'] != 'NodePort':
+        abort(422, 'Only services with type NodePort are supported')
+
+    return svc
 
 
 def create_object(k8s_host, **kwargs):
@@ -406,6 +432,27 @@ def main():
 
         create_kv(consul_host, svc_key, svc)
         create_kv(consul_host, spec_key + '/deployed', payload)
+
+        return svc
+
+
+    @put('/registration/<namespace>/<service_name>')
+    def insert_svc(namespace, service_name):
+        """
+        Fetch service definition for named service from Kubernetes
+        and populate Consul key/value store with recieved data
+        """
+        svc = fetch_svc(
+                    k8s_host,
+                    k8s_api_headers=k8s_api_headers,
+                    namespace=namespace,
+                    service_name=service_name
+                )
+
+        svc_key = '{}/deployments/{}/{}'.format(
+                        consul_key_path, namespace, service_name
+                    )
+        create_kv(consul_host, svc_key, svc)
 
         return svc
 

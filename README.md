@@ -153,3 +153,9 @@ Undeploy service
 ```
 curl -X DELETE -isSL http://localhost:8089/deployments/default/echoserver
 ```
+
+Populate Consul K/V store with service definitions for services that are not deployed through `k8s-deployer`
+
+```
+curl -X PUT -isSL http://localhost:8089/registration/default/echoserver
+```
