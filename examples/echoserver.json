@@ -30,7 +30,7 @@
                             "containers": [
                                 {
                                     "name": "echoserver",
-                                    "image": "gcr.io/google_containers/echoserver:1.4",
+                                    "image": "gcr.io/google_containers/echoserver:1.6",
                                     "ports": [
                                         {
                                             "containerPort": 8080,
@@ -76,9 +76,16 @@
                 "metadata": {
                     "name": "echoserver",
                     "creationTimestamp": null,
+                    "annotations": {
+                        "traefik.enable": "true",
+                        "traefik.tags": "kubernetes",
+                        "traefik.frontend.rule": "Host:echoserver.example.com,echo.example.com;Method:GET,POST",
+                        "traefik.frontend.entryPoints": "http,https",
+                        "traefik.backend.loadbalancer": "wrr",
+                        "tags": "kubernetes,k8s,red"
+                    },
                     "labels": {
-                        "app": "echoserver",
-                        "tags": "kubernetes__k8s__blue"
+                        "app": "echoserver"
                     }
                 },
                 "spec": {

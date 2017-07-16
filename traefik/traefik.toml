@@ -1,0 +1,23 @@
+logLevel = "DEBUG"
+
+[web]
+address = ":8080"
+
+defaultEntryPoints = ["http", "https"]
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+    [entryPoints.http.redirect]
+      entryPoint = "https"
+  [entryPoints.https]
+  address = ":443"
+    [entryPoints.https.tls]
+      [[entryPoints.https.tls.certificates]]
+      CertFile = "/etc/traefik/ssl/san_or_wildcard.crt"
+      KeyFile = "/etc/traefik/ssl/san_or_wildcard.key"
+
+[consulCatalog]
+endpoint = "127.0.0.1:8500"
+domain = "example.com"
+prefix = "traefik"
+constraints = ["tag==kubernetes"]

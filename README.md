@@ -6,6 +6,8 @@ About
 ---
 Deploy Kubernetes service and insert retrieved information into Consul K/V store
 
+![kubernetes-external-load-balancing](../images/kubernetes-external-load-balancing.png)
+
 
 Installation
 ---
@@ -154,8 +156,12 @@ Undeploy service
 curl -X DELETE -isSL http://localhost:8089/deployments/default/echoserver
 ```
 
-Populate Consul K/V store with service definitions for services that are not deployed through `k8s-deployer`
+Update existing service definitions that have been manually modified on the Kubernetes side or
+populate Consul K/V store with new service definitions for services that are not deployed through `k8s-deployer` (register service on Consul)
 
 ```
 curl -X PUT -isSL http://localhost:8089/registration/default/echoserver
 ```
+
+---
+Next go to [consul-template](./consul-template/README.md)

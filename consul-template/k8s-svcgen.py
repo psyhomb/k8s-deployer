@@ -37,16 +37,19 @@ if data:
             svc = json.loads(s)
 
             name = svc['metadata']['name']
-            labels = svc['metadata'].get('labels')
+            annotations = svc['metadata'].get('annotations')
             node_port = svc['spec']['ports'][0]['nodePort']
 
-            if labels is None:
+            if annotations is None:
                 tags = None
             else:
-                if 'tags' in labels:
-                    tags = labels['tags'].split('__')
-                else:
-                    tags = labels.values()
+                tags = []
+                for k,v in annotations.items():
+                    constraint = k.split('.')[0]
+                    if constraint == 'traefik':
+                        tags.append('{}={}'.format(k,v))
+                    elif constraint == 'tags':
+                        tags += [  tag.strip()  for tag in v.split(',')  ]
 
             svcs.append({
                 'name': name,
@@ -55,4 +58,4 @@ if data:
             })
 
     services = {'services': svcs}
-    print json.dumps(services, indent=2)
+    print(json.dumps(services, indent=2))
