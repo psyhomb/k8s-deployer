@@ -6,7 +6,7 @@ About
 ---
 Deploy Kubernetes service and insert retrieved information into Consul K/V store
 
-![kubernetes-external-load-balancing](../images/kubernetes-external-load-balancing.png)
+![kubernetes-external-load-balancing](./images/kubernetes-external-load-balancing.png)
 
 
 Installation
