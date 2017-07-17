@@ -66,7 +66,7 @@ Only `traefik.tags` key is required (`"traefik.tags": "kubernetes"`), value for 
 **3b.** consul-template will register a new service in Consul service catalog
 
 
-**4a.** Traefik will watch Consul service catalog over Consul HTTP API for new services, when a new service, with appropriate tag, arrives it will be added to Traefik LB. This way LB will receive all the required data, data about Kubernetes nodes (FQDN/IP) on which service is running, service port (NodePort) on which service is listening on and all configuration parameters collected from tags)
+**4a.** Traefik will watch Consul service catalog over Consul HTTP API for new services, when a new service, with appropriate tag, arrives it will be added to Traefik LB. This way LB will receive all the required data, data about Kubernetes nodes (FQDN/IP) on which service is running, service port (NodePort) on which service is listening on and all configuration parameters collected through tags
 
 **4b.** From this moment on service is ready to receive traffic from clients
 
