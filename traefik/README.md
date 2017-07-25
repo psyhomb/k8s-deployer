@@ -4,7 +4,7 @@ Kubernetes External Load Balancing with Traefik
 About
 ---
 Here I will explain it how you can utilize [Traefik](https://traefik.io) as Kubernetes external load balancer, before we can begin there are few prerequisites you have to fulfill, you must have already up and running:
-- [kubernetes](https://kubernetes.io/docs/getting-started-guides/scratch) cluster
+- [kubernetes](../kubernetes/README.md) cluster on bare metal
 - [supervisord](http://supervisord.org) process manager
 - [consul](../consul-template/README.md) as you already know we're using [Consul](https://www.consul.io/intro/index.html) as K/V store and for service registration (consul catalog)
 - [consul-template](../consul-template/README.md)
