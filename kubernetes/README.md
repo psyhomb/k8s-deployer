@@ -7,9 +7,9 @@ Prerequisites
 
 You have to install and configure these components on all master nodes, I have provided configuration files but you have to install it by yourself
 
-- [keepalived](./keepalived.conf)
-- [haproxy LB](./haproxy.cfg)
-- [etcd external cluster](https://coreos.com/etcd/docs/latest/v2/clustering.html)
+- [keepalived](./keepalived/keepalived.conf)
+- [haproxy LB](./haproxy/haproxy.cfg)
+- [etcd external cluster](https://coreos.com/etcd/docs/latest/v2/clustering.html) (supervisor configuration file for [etcd](./etcd/etcd.conf) included)
 
 **Note:** Before you can start haproxy service, that will bind to floating IP, you have to allow non-local bind first
 ```bash
@@ -62,9 +62,9 @@ apiVersion: kubeadm.k8s.io/v1alpha1
 kind: MasterConfiguration
 etcd:
   endpoints:
-  - http://172.16.30.34:2379
-  - http://172.16.30.33:2379
-  - http://172.16.30.32:2379
+  - http://172.16.28.11:2379
+  - http://172.16.28.12:2379
+  - http://172.16.28.13:2379
 networking:
   podSubnet: 10.244.0.0/16
 apiServerCertSANs:
