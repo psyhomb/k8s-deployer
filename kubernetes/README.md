@@ -5,7 +5,8 @@ Kubernetes installation on bare metal
 Prerequisites
 ---
 
-You have to install and configure these components on all master nodes, I have provided configuration files but you have to install it by yourself
+Install and configure these components on every master node.
+If you plan to use an external etcd cluster then you should consider installation of that component on the separate, bare metal servers.
 
 - [keepalived](./keepalived/keepalived.conf)
 - [haproxy LB](./haproxy/haproxy.cfg)
@@ -88,7 +89,7 @@ kubeadm init --config=primary-master-config.yaml 2>&1 | tee kubeadm.log
 
 Replace IP address for API server
 ```bash
-for CONF in admin.conf controller-manager.conf kubelet.conf scheduler.conf; do sed -i 's/172.16.30.16:6443/172.16.30.30:6443/' /etc/kubernetes/${CONF}; done
+for CONF in admin.conf controller-manager.conf kubelet.conf scheduler.conf; do sed -i 's/172.16.30.16:6443/172.16.30.30:8443/' /etc/kubernetes/${CONF}; done
 ```
 
 Bind API to insecure port (localhost only)
@@ -141,14 +142,14 @@ Add additional master or regular node
 **Note:** replace <token> with token from kubeadm.log file
 
 If you're adding standard node (not a master) you have to execute provided command and
-then you must change API IP address in /etc/kubernetes/kubelet.conf config file to floating IP and restart kubelet service: `systemctl restart kubelet` and that's all you have to do for a regular node
+then you must replace API socket (IP:port) in /etc/kubernetes/kubelet.conf config file to floating IP and VS port (172.16.30.30:8443) and restart kubelet service: `systemctl restart kubelet` and that's all you have to do for a regular node
 ```bash
-kubeadm join --token <token> 172.16.30.30:6443
+kubeadm join --token <token> 172.16.30.30:8443
 ```
 
 On every new regular or master node we must add an iptables rule that will be used for traffic redirection, all traffic intended for the primary master (secure API) will be redirected to LB (floating IP => 172.16.30.30) otherwise if primary master (172.16.30.16) goes down, for any reason, it will be impossible to add (join) any additional/new master or regular nodes in to the cluster, despite the fact that we have a multi-master cluster kubeadm will always try to discover a master node and cluster will always return an IP address of the primary master
 ```bash
-iptables -t nat -A OUTPUT -p tcp --dport 6443 -d 172.16.30.16 -j DNAT --to-destination 172.16.30.30
+iptables -t nat -A OUTPUT -p tcp -m multiport --dport 6443,8443 -d 172.16.30.16 -j DNAT --to-destination 172.16.30.30
 iptables -t nat -L OUTPUT -n -v
 ```
 
