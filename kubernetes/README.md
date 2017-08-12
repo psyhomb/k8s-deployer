@@ -149,7 +149,7 @@ kubeadm join --token <token> 172.16.30.30:8443
 
 On every new regular or master node we must add an iptables rule that will be used for traffic redirection, all traffic intended for the primary master (secure API) will be redirected to LB (floating IP => 172.16.30.30) otherwise if primary master (172.16.30.16) goes down, for any reason, it will be impossible to add (join) any additional/new master or regular nodes in to the cluster, despite the fact that we have a multi-master cluster kubeadm will always try to discover a master node and cluster will always return an IP address of the primary master
 ```bash
-iptables -t nat -A OUTPUT -p tcp -m multiport --dport 6443,8443 -d 172.16.30.16 -j DNAT --to-destination 172.16.30.30
+iptables -t nat -A OUTPUT -p tcp -m multiport --dport 6443,8443 -d 172.16.30.16 -j DNAT --to-destination 172.16.30.30:8443
 iptables -t nat -L OUTPUT -n -v
 ```
 
