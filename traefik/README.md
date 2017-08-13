@@ -42,6 +42,7 @@ Example `annotations` hash that can be found inside [echoserver.json](../example
     "traefik.frontend.rule": "Host:echoserver.example.com,echo.example.com;Method:GET,POST",
     "traefik.frontend.entryPoints": "http,https",
     "traefik.backend.loadbalancer": "wrr",
+    "traefik.backend.weight": "10",
     "tags": "kubernetes,k8s,red"
 }
 ```
