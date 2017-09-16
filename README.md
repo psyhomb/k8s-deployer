@@ -80,7 +80,7 @@ Specification descriptor:
     "namespace": null,
     "objects": {
         "deployments": {
-            "api_path": "apis/extensions/v1beta1",
+            "api_path": "apis/apps/v1beta1",
             "specification": {
                 "### Kubernetes deployment object spec goes here"
             }
