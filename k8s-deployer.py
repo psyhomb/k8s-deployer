@@ -99,9 +99,6 @@ def spec_validator(data):
                     'deployments': {
                         'type': 'object',
                         'properties': {
-                            'api_path': {
-                                'type': 'string'
-                            },
                             'specification': {
                                 'type': 'object'
                             }
@@ -110,9 +107,6 @@ def spec_validator(data):
                     'services': {
                         'type': 'object',
                         'properties': {
-                            'api_path': {
-                                'type': 'string'
-                            },
                             'specification': {
                                 'type': 'object'
                             }
@@ -170,7 +164,7 @@ def create_object(k8s_host, **kwargs):
     objects = kwargs['objects']
 
     for obj in objects:
-        api_path = objects[obj]['api_path']
+        api_path = K8S_API[obj]
         url = '{}/{}/namespaces/{}/{}'.format(
                     k8s_host, api_path,
                     namespace, obj
@@ -230,8 +224,8 @@ def delete_object(k8s_host, **kwargs):
     objects = kwargs['objects']
 
     for obj in objects.keys() + ['replicasets']:
+        api_path = K8S_API[obj]
         if obj == 'replicasets':
-            api_path = K8S_API['replicasets']
             rs_label_selector = (kwargs['objects']['deployments']
                     ['specification']['spec']['selector']['matchLabels']
                 )
@@ -245,7 +239,6 @@ def delete_object(k8s_host, **kwargs):
                 )
             obj_name = req('GET', url)['items'][0]['metadata']['name']
         else:
-            api_path = objects[obj]['api_path']
             obj_name = (kwargs['objects']['services']
                         ['specification']['metadata']['name']
                     )
