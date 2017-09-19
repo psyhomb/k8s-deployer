@@ -13,7 +13,7 @@ from bottle import get, post, put, delete, abort, request, response, run
 
 
 __prog__ = os.path.splitext(os.path.basename(__file__))[0]
-__version__ = 'v0.1'
+__version__ = 'v0.1.1'
 __author__ = 'Milos Buncic'
 __date__ = '2017/03/20'
 __description__ = 'Kubernetes deployer API with Consul registration'
