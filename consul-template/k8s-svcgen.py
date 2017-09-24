@@ -16,16 +16,21 @@
 #
 # Now, restart the agent, providing the configuration directory:
 #
-#     $ consul agent -dev -config-dir=/etc/consul.d
+#     # consul agent -dev -config-dir=/etc/consul.d
 #     ==> Starting Consul agent...
 #     ...
 #     [INFO] agent: Synced service 'svc1'
 #     ...
+#
+# or
+#
+#     # consul reload
+#     Configuration reload triggered
+#
 
 import sys, json
 
-args = sys.argv
-data = args[1]
+data = sys.argv[1]
 
 svcs = []
 
@@ -35,6 +40,9 @@ if data:
     for ns in d.values():
         for s in ns.values():
             svc = json.loads(s)
+
+            if svc['spec']['type'] != 'NodePort':
+                continue
 
             name = svc['metadata']['name']
             annotations = svc['metadata'].get('annotations')
@@ -58,4 +66,4 @@ if data:
             })
 
     services = {'services': svcs}
-    print(json.dumps(services, indent=2))
+    print(json.dumps(services, indent=4, separators=(',', ': ')))

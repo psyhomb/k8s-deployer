@@ -1,7 +1,7 @@
-# docker build --no-cache -t k8s-deployer:0.1 .
-# docker run -it -d --name k8s-deployer -P k8s-deployer:0.1
+# docker build --no-cache -t k8s-deployer .
+# docker run -it -d --name k8s-deployer -P k8s-deployer
 
-FROM alpine:3.5
+FROM alpine:3.6
 
 ENV SRV_PORT=8089 \
     PROJECT_DIR=/data/k8s-deployer

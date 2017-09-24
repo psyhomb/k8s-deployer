@@ -10,21 +10,14 @@ Here I will explain it how you can utilize [Traefik](https://traefik.io) as Kube
 - [consul-template](../consul-template/README.md)
 - [k8s-deployer](../README.md) API
 
-```
-+-----------------+-------------+-----------+--------------+
-|    install on   | k8s masters | k8s nodes | traefik node |
-+-----------------+-------------+-----------+--------------+
-| supervisord     |      X      |     X     |       X      |
-+-----------------+-------------+-----------+--------------+
-| consul          |      X      |     X     |       X      |
-+-----------------+-------------+-----------+--------------+
-| consul-template |             |     X     |              |
-+-----------------+-------------+-----------+--------------+
-| traefik         |             |           |       X      |
-+-----------------+-------------+-----------+--------------+
-| k8s-deployer    |      X      |           |              |
-+-----------------+-------------+-----------+--------------+
-```
+
+| install on       | k8s masters   | k8s nodes   | traefik nodes  |
+|:-----------------|:-------------:|:-----------:|:--------------:|
+| supervisord      |       X       |      X      |       X        |
+| consul           |       X       |      X      |       X        |
+| consul-template  |               |      X      |                |
+| traefik          |               |             |       X        |
+| k8s-deployer     |       X       |             |                |
 
 
 More in depth explanation
