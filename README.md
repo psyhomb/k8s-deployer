@@ -4,7 +4,7 @@ k8s-deployer HTTP API
 
 About
 ---
-Deploy Kubernetes service and insert retrieved information into Consul K/V store
+Deploy Kubernetes service and insert retrieved information into the Consul K/V store
 
 ![kubernetes-external-load-balancing](./images/kubernetes-external-load-balancing.png)
 

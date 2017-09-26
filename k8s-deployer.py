@@ -13,7 +13,7 @@ from bottle import get, post, put, delete, abort, request, response, run
 
 
 __prog__ = os.path.splitext(os.path.basename(__file__))[0]
-__version__ = 'v0.1.2'
+__version__ = 'v0.1.3'
 __author__ = 'Milos Buncic'
 __date__ = '2017/03/20'
 __description__ = 'Kubernetes deployer API with Consul registration'
@@ -51,7 +51,7 @@ def load_config(config_file):
         sys.exit(1)
 
 
-def req(method, url, headers={}, payload=None, status_code=False):
+def req(method, url, headers={}, payload=None, status_code=False, timeout=30):
     """
     Request function with error handlers (output: dict)
     """
@@ -67,13 +67,15 @@ def req(method, url, headers={}, payload=None, status_code=False):
     try:
         if method in ['GET', 'DELETE']:
             r = requests.request(
-                    method, url, headers=pass_headers, verify=False
+                    method, url,
+                    headers=pass_headers, timeout=timeout, verify=False
                 )
         elif method in ['POST', 'PUT', 'PATCH']:
             ### built-in json parameter does not support pretty-printing
             # r = requests.request(method, url, json=payload)
             r = requests.request(
-                    method, url, headers=pass_headers, verify=False,
+                    method, url,
+                    headers=pass_headers, timeout=timeout, verify=False,
                     data=json.dumps(
                         payload, indent=4, separators=(',', ': ')
                     )
