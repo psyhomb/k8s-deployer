@@ -9,7 +9,7 @@ ENV SRV_PORT=8089 \
 WORKDIR $PROJECT_DIR
 
 COPY . ./
-RUN apk add --update python py-pip \
+RUN apk add --no-cache python py-pip \
  && pip2 install -r requirements.txt \
  && rm -vf requirements.txt
 
