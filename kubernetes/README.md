@@ -6,7 +6,7 @@ Prerequisites
 ---
 
 Install and configure these components on every master node.
-If you plan to use an external etcd cluster then you should consider installation of that component on the separate, bare metal servers.
+If you plan to use an external etcd cluster then you should consider installing that component on the dedicated, bare metal servers.
 
 - [keepalived](./keepalived/keepalived.conf)
 - [haproxy LB](./haproxy/haproxy.cfg)
