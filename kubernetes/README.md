@@ -138,10 +138,10 @@ kubectl get nodes -n kube-system -o wide
 Add additional master or regular node
 ---
 
-**Note:** replace <token> with token from kubeadm.log file
-
 If you're adding standard node (not a master) you have to execute provided command and
 then you must replace API socket (IP:port) in /etc/kubernetes/kubelet.conf config file to floating IP and VS port (172.16.30.30:8443) and restart kubelet service: `systemctl restart kubelet` and that's all you have to do for a regular node
+
+**Note:** replace `<token>` with token from kubeadm.log file
 ```bash
 kubeadm join --token <token> 172.16.30.30:8443
 ```
