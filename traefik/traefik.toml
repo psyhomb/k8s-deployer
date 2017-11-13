@@ -1,9 +1,21 @@
 logLevel = "DEBUG"
 
+defaultEntryPoints = ["http", "https"]
+
+#RootCAs = [ "/mycert.cert" ]
+InsecureSkipVerify = false
+
 [web]
 address = ":8080"
 
-defaultEntryPoints = ["http", "https"]
+# [web]
+# address = ":8443"
+# ReadOnly = false
+# CertFile = "ssl/wildcard.example.com.crt"
+# KeyFile = "ssl/wildcard.example.com.key"
+#   [web.auth.basic]
+#   usersFile = ".htpasswd"
+
 [entryPoints]
   [entryPoints.http]
   address = ":80"
@@ -13,8 +25,11 @@ defaultEntryPoints = ["http", "https"]
   address = ":443"
     [entryPoints.https.tls]
       [[entryPoints.https.tls.certificates]]
-      CertFile = "/etc/traefik/ssl/san_or_wildcard.crt"
-      KeyFile = "/etc/traefik/ssl/san_or_wildcard.key"
+      CertFile = "ssl/wildcard.api.example.com.crt"
+      KeyFile = "ssl/wildcard.api.example.com.key"
+      [[entryPoints.https.tls.certificates]]
+      CertFile = "ssl/wildcard.example.com.crt"
+      KeyFile = "ssl/wildcard.example.com.key"
 
 [consulCatalog]
 endpoint = "127.0.0.1:8500"
