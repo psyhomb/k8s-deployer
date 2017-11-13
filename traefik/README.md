@@ -25,7 +25,7 @@ More in depth explanation
 ![kubernetes-external-load-balancing](../images/kubernetes-external-load-balancing.png)
 
 **1.** First we have to provide deployment and service specification to [k8s-deployer](../README.md) API (more about these specs [here](../README.md)).
-Service spec is particularly important because it holds [Traefik's](https://docs.traefik.io/configuration/backends/consul) configuration parameters inside `annotations` hash.
+Service spec is particularly important because it holds [Traefik's](http://docs.traefik.io/configuration/backends/consul/#tags) configuration parameters inside `annotations` hash.
 
 Example `annotations` hash that can be found inside [echoserver.json](../examples/echoserver.json) spec file
 ```json
