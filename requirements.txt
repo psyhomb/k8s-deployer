@@ -1,4 +1,4 @@
 bottle==0.12.20
-requests==2.20.0
+requests==2.31.0
 Paste==2.0.3
 validictory==1.1.1
